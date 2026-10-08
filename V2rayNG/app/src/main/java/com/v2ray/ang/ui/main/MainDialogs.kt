@@ -8,8 +8,8 @@ data class ServerDeleteTarget(
 ) {
     companion object {
         val Saver = listSaver<ServerDeleteTarget?, String>(
-            save = { target -> target?.let { listOf(it.guid, it.profileName) }.orEmpty() },
-            restore = { ServerDeleteTarget(it[0], it[1]) },
+            save = { target -> target?.let { listOf(it.guid, it.profileName) } },
+            restore = { values -> if (values.size < 2) null else ServerDeleteTarget(values[0], values[1]) },
         )
     }
 }

@@ -390,7 +390,8 @@ class MainViewModel(
         val loadMutex = groupLoadMutexes.computeIfAbsent(groupId) { Mutex() }
         return loadMutex.withLock {
             if (!forceRefresh) {
-                cacheMutex.withLock { groupDataCache[groupId]?.let { return@withLock it } }
+                val cached = cacheMutex.withLock { groupDataCache[groupId] }
+                if (cached != null) return@withLock cached
             }
             val servers = buildServersCache(dataSource.getServerGuidList(groupId))
             currentCoroutineContext().ensureActive()
