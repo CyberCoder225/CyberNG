@@ -125,6 +125,14 @@ class MainRepository(
     override fun isGroupAllDisplayEnabled(): Boolean =
         MmkvManager.decodeSettingsBool(AppConfig.PREF_GROUP_ALL_DISPLAY)
 
+    override fun getCustomSni(): String = SettingsManager.getCustomSni().orEmpty()
+
+    override fun saveCustomSni(raw: String): Boolean {
+        val value = SettingsManager.normalizeCustomSni(raw) ?: return false
+        SettingsManager.setCustomSni(value)
+        return true
+    }
+
     override fun getString(resId: Int): String = localizedContext.getString(resId)
 
     override fun getString(resId: Int, vararg formatArgs: Any): String =
@@ -132,14 +140,13 @@ class MainRepository(
 
     override fun getSubscriptions(): List<SubscriptionCache> {
         val result = mutableListOf<SubscriptionCache>()
-        if (isGroupAllDisplayEnabled()) {
-            result += SubscriptionCache(
-                guid = "",
-                subscription = SubscriptionItem().apply {
-                    remarks = localizedContext.getString(R.string.filter_config_all)
-                }
-            )
-        }
+        // The simplified home screen always shows every server, so the "all" group is always present.
+        result += SubscriptionCache(
+            guid = "",
+            subscription = SubscriptionItem().apply {
+                remarks = localizedContext.getString(R.string.filter_config_all)
+            }
+        )
         result += MmkvManager.decodeSubscriptions()
         return result
     }

@@ -559,4 +559,32 @@
     <string name="connection_test_empty_message">không có thông tin chi tiết</string>
     <string name="value_unknown">không xác định</string>
 
+
+    <!-- Simplified home and settings screens -->
+    <string name="home_connect">Kết nối</string>
+    <string name="home_disconnect">Ngắt kết nối</string>
+    <string name="home_no_server_selected">Chưa chọn máy chủ</string>
+    <string name="home_select_server_first">Nhập một máy chủ rồi chạm vào máy chủ đó trong danh sách để kết nối.</string>
+    <string name="home_sni_title">SNI tùy chỉnh</string>
+    <string name="home_sni_description">Tên máy chủ (SNI) dùng cho TLS và Reality trên mọi máy chủ. Để trống để dùng cài đặt riêng của từng máy chủ.</string>
+    <string name="home_sni_label">Tên máy chủ SNI, ví dụ example.com</string>
+    <string name="home_sni_current">SNI hiện tại: %s</string>
+    <string name="home_sni_none">Chưa đặt. Mỗi máy chủ dùng cài đặt riêng.</string>
+    <string name="action_save">Lưu</string>
+    <string name="action_clear">Xóa</string>
+    <string name="home_servers_count">Máy chủ (%d)</string>
+    <string name="home_test_all">Kiểm tra tất cả</string>
+    <string name="home_no_servers">Chưa có máy chủ. Chạm Nhập để thêm từ bảng nhớ tạm, mã QR hoặc tệp.</string>
+    <string name="home_delay_ms">%d ms</string>
+    <string name="home_delay_not_tested">Chưa kiểm tra</string>
+    <string name="home_server_more">Thao tác khác cho %s</string>
+    <string name="home_import">Nhập</string>
+    <string name="home_export">Xuất</string>
+    <string name="home_export_links_file">Lưu tất cả liên kết vào tệp</string>
+    <string name="home_export_config_file">Lưu máy chủ đã chọn thành tệp cấu hình</string>
+    <string name="toast_custom_sni_saved">Đã lưu SNI tùy chỉnh</string>
+    <string name="toast_invalid_custom_sni">Nhập tên máy chủ hợp lệ, ví dụ example.com</string>
+    <string name="home_mode_help">VPN đưa mọi ứng dụng qua proxy. Chỉ proxy chạy proxy cục bộ mà ứng dụng phải được cài đặt để dùng.</string>
+    <string name="home_version">Phiên bản %s</string>
+
 </resources>

@@ -561,4 +561,32 @@
     <string name="connection_test_empty_message">جزئیاتی در دسترس نیست</string>
     <string name="value_unknown">ناشناخته</string>
 
+
+    <!-- Simplified home and settings screens -->
+    <string name="home_connect">اتصال</string>
+    <string name="home_disconnect">قطع اتصال</string>
+    <string name="home_no_server_selected">هیچ سروری انتخاب نشده</string>
+    <string name="home_select_server_first">یک سرور وارد کنید و برای اتصال، آن را در فهرست لمس کنید.</string>
+    <string name="home_sni_title">SNI سفارشی</string>
+    <string name="home_sni_description">نام سرور (SNI) برای TLS و Reality در همه سرورها. برای استفاده از تنظیم هر سرور، خالی بگذارید.</string>
+    <string name="home_sni_label">نام میزبان SNI، مثلاً example.com</string>
+    <string name="home_sni_current">SNI فعلی: %s</string>
+    <string name="home_sni_none">تنظیم نشده. هر سرور از تنظیم خودش استفاده می‌کند.</string>
+    <string name="action_save">ذخیره</string>
+    <string name="action_clear">پاک کردن</string>
+    <string name="home_servers_count">سرورها (%d)</string>
+    <string name="home_test_all">آزمایش همه</string>
+    <string name="home_no_servers">هنوز سروری نیست. برای افزودن از کلیپ‌بورد، کد QR یا فایل، روی «وارد کردن» بزنید.</string>
+    <string name="home_delay_ms">%d میلی‌ثانیه</string>
+    <string name="home_delay_not_tested">آزمایش نشده</string>
+    <string name="home_server_more">اقدامات بیشتر برای %s</string>
+    <string name="home_import">وارد کردن</string>
+    <string name="home_export">خروجی</string>
+    <string name="home_export_links_file">ذخیره همه لینک‌ها در فایل</string>
+    <string name="home_export_config_file">ذخیره سرور انتخاب‌شده به‌صورت فایل پیکربندی</string>
+    <string name="toast_custom_sni_saved">SNI سفارشی ذخیره شد</string>
+    <string name="toast_invalid_custom_sni">یک نام میزبان معتبر وارد کنید، مثلاً example.com</string>
+    <string name="home_mode_help">حالت VPN همه برنامه‌ها را از پروکسی عبور می‌دهد. حالت فقط پروکسی، یک پروکسی محلی راه می‌اندازد که برنامه‌ها باید دستی از آن استفاده کنند.</string>
+    <string name="home_version">نسخه %s</string>
+
 </resources>

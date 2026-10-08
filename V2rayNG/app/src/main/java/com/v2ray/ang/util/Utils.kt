@@ -234,6 +234,16 @@ object Utils {
     }
 
     /**
+     * Check whether a custom SNI is a plain DNS host name (no scheme, port, path or IP literal).
+     * Pure Kotlin on purpose: it must stay testable without Android framework classes.
+     */
+    fun isValidSniHostName(value: String): Boolean =
+        SNI_HOST_NAME_REGEX.matches(value)
+
+    private val SNI_HOST_NAME_REGEX =
+        Regex("^(?=.{1,253}$)([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)+[A-Za-z]{2,63}$")
+
+    /**
      * Check if a string is a valid URL.
      *
      * @param value The string to check.

@@ -10,6 +10,7 @@ import com.v2ray.ang.enums.NetworkType
 import com.v2ray.ang.extension.isNotNullEmpty
 import com.v2ray.ang.extension.nullIfBlank
 import com.v2ray.ang.handler.MmkvManager
+import com.v2ray.ang.handler.SettingsManager
 import com.v2ray.ang.util.HttpUtil
 import com.v2ray.ang.util.JsonUtil
 import com.v2ray.ang.util.LogUtil
@@ -556,15 +557,12 @@ object CoreOutboundBuilder {
     fun populateTlsSettings(streamSettings: OutboundBean.StreamSettingsBean, profileItem: ProfileItem, sniExt: String?) {
         val streamSecurity = profileItem.security.orEmpty()
         val allowInsecure = profileItem.insecure == true && profileItem.pinnedCA256.isNullOrEmpty()
-        val sni = if (profileItem.sni.isNullOrEmpty()) {
-            when {
-                sniExt.isNotNullEmpty() && Utils.isDomainName(sniExt) -> sniExt
-                profileItem.server.isNotNullEmpty() && Utils.isDomainName(profileItem.server) -> profileItem.server
-                else -> sniExt
-            }
-        } else {
-            profileItem.sni
-        }
+        val sni = resolveTlsServerName(
+            customSni = SettingsManager.getCustomSni(),
+            profileSni = profileItem.sni,
+            sniExt = sniExt,
+            server = profileItem.server,
+        )
 
         streamSettings.security = streamSecurity.nullIfBlank()
         if (streamSettings.security == null) return
@@ -704,5 +702,27 @@ object CoreOutboundBuilder {
                 LogUtil.w("V2rayConfigManager", "Invalid finalMask JSON, keeping previously generated finalmask")
             }
         }
+    }
+}
+
+/**
+ * Resolve the TLS/Reality server name for an outbound.
+ *
+ * Priority: the global custom SNI (when set) applies to every TLS/Reality outbound; otherwise the
+ * profile's own SNI; otherwise the transport-derived host when it is a domain; otherwise the server
+ * address when it is a domain; otherwise the transport-derived value unchanged.
+ */
+internal fun resolveTlsServerName(
+    customSni: String?,
+    profileSni: String?,
+    sniExt: String?,
+    server: String?,
+): String? {
+    if (!customSni.isNullOrEmpty()) return customSni
+    if (!profileSni.isNullOrEmpty()) return profileSni
+    return when {
+        sniExt.isNotNullEmpty() && Utils.isDomainName(sniExt) -> sniExt
+        server.isNotNullEmpty() && Utils.isDomainName(server) -> server
+        else -> sniExt
     }
 }

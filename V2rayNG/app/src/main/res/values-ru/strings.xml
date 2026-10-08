@@ -565,4 +565,32 @@
     <string name="connection_test_empty_message">подробности отсутствуют</string>
     <string name="value_unknown">неизвестно</string>
 
+
+    <!-- Simplified home and settings screens -->
+    <string name="home_connect">Подключить</string>
+    <string name="home_disconnect">Отключить</string>
+    <string name="home_no_server_selected">Сервер не выбран</string>
+    <string name="home_select_server_first">Импортируйте сервер и выберите его в списке, чтобы подключиться.</string>
+    <string name="home_sni_title">Свой SNI</string>
+    <string name="home_sni_description">Имя сервера (SNI) для TLS и Reality на всех серверах. Оставьте пустым, чтобы использовать настройку каждого сервера.</string>
+    <string name="home_sni_label">Имя хоста SNI, например example.com</string>
+    <string name="home_sni_current">Текущий SNI: %s</string>
+    <string name="home_sni_none">Не задан. Каждый сервер использует свою настройку.</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_clear">Очистить</string>
+    <string name="home_servers_count">Серверы (%d)</string>
+    <string name="home_test_all">Проверить все</string>
+    <string name="home_no_servers">Серверов пока нет. Нажмите «Импорт», чтобы добавить из буфера обмена, QR-кода или файла.</string>
+    <string name="home_delay_ms">%d мс</string>
+    <string name="home_delay_not_tested">Не проверен</string>
+    <string name="home_server_more">Другие действия для %s</string>
+    <string name="home_import">Импорт</string>
+    <string name="home_export">Экспорт</string>
+    <string name="home_export_links_file">Сохранить все ссылки в файл</string>
+    <string name="home_export_config_file">Сохранить выбранный сервер как файл конфигурации</string>
+    <string name="toast_custom_sni_saved">SNI сохранён</string>
+    <string name="toast_invalid_custom_sni">Введите корректное имя хоста, например example.com</string>
+    <string name="home_mode_help">VPN направляет все приложения через прокси. Режим «Только прокси» запускает локальный прокси, который приложения должны использовать вручную.</string>
+    <string name="home_version">Версия %s</string>
+
 </resources>

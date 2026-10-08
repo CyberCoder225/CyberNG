@@ -415,6 +415,44 @@ object SettingsManager {
     }
 
     /**
+     * Get the global custom SNI, or null when no custom SNI is set.
+     */
+    fun getCustomSni(): String? =
+        MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_SNI)?.trim()?.takeIf { it.isNotEmpty() }
+
+    /**
+     * Validate a user-entered custom SNI.
+     * @return The trimmed host name, "" to clear the setting, or null when the value is invalid.
+     */
+    fun normalizeCustomSni(raw: String): String? {
+        val value = raw.trim()
+        if (value.isEmpty()) return ""
+        return value.takeIf { Utils.isValidSniHostName(it) }
+    }
+
+    /**
+     * Save the global custom SNI. An empty value clears it. Callers must validate with [normalizeCustomSni] first.
+     */
+    fun setCustomSni(value: String) {
+        MmkvManager.encodeSettings(AppConfig.PREF_CUSTOM_SNI, value)
+        SettingsChangeManager.notifySettingChanged(AppConfig.PREF_CUSTOM_SNI)
+    }
+
+    /**
+     * Get the connection mode value ("VPN" or "Proxy only" from the mode_value array).
+     */
+    fun getConnectionMode(): String =
+        MmkvManager.decodeSettingsString(AppConfig.PREF_MODE) ?: VPN
+
+    /**
+     * Save the connection mode value and mark the core service for restart.
+     */
+    fun setConnectionMode(mode: String) {
+        MmkvManager.encodeSettings(AppConfig.PREF_MODE, mode)
+        SettingsChangeManager.notifySettingChanged(AppConfig.PREF_MODE)
+    }
+
+    /**
      * Check if VPN mode is enabled.
      * @return True if VPN mode is enabled, false otherwise.
      */
