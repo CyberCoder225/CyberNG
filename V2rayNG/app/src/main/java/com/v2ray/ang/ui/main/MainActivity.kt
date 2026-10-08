@@ -21,16 +21,9 @@ import com.v2ray.ang.extension.toast
 import com.v2ray.ang.extension.toastError
 import com.v2ray.ang.extension.toastSuccess
 import com.v2ray.ang.handler.AngConfigManager
-import com.v2ray.ang.handler.MmkvManager
 import com.v2ray.ang.handler.SettingsChangeManager
 import com.v2ray.ang.handler.SettingsManager
-import com.v2ray.ang.ui.AboutActivity
-import com.v2ray.ang.ui.backup.BackupActivity
 import com.v2ray.ang.ui.base.HelperBaseComponentActivity
-import com.v2ray.ang.ui.checkupdate.CheckUpdateActivity
-import com.v2ray.ang.ui.logcat.LogcatActivity
-import com.v2ray.ang.ui.perappproxy.PerAppProxyActivity
-import com.v2ray.ang.ui.routing.RoutingSettingActivity
 import com.v2ray.ang.ui.server.ProfileEditorResult
 import com.v2ray.ang.ui.server.ServerCustomConfigActivity
 import com.v2ray.ang.ui.server.ServerGroupActivity
@@ -44,8 +37,6 @@ import com.v2ray.ang.ui.server.ServerVlessActivity
 import com.v2ray.ang.ui.server.ServerVmessActivity
 import com.v2ray.ang.ui.server.ServerWireguardActivity
 import com.v2ray.ang.ui.settings.SettingsActivity
-import com.v2ray.ang.ui.subscription.SubSettingActivity
-import com.v2ray.ang.ui.userasset.UserAssetActivity
 import com.v2ray.ang.util.LogUtil
 import com.v2ray.ang.util.Utils
 import kotlinx.coroutines.Dispatchers
@@ -57,6 +48,9 @@ class MainActivity : HelperBaseComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels {
         MainViewModel.Factory(application, MainRepository(application as AngApplication))
     }
+
+    /** GUID captured when "Save selected server as a config file" is chosen; the picker runs later. */
+    private var pendingConfigExportGuid: String? = null
 
     private val requestVpnPermission =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -84,10 +78,22 @@ class MainActivity : HelperBaseComponentActivity() {
     private val settingsActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val restartService = SettingsChangeManager.consumeRestartService()
-            val refreshGroups = SettingsChangeManager.consumeSetupGroupTab()
             mainViewModel.refreshUiSettings()
-            if (refreshGroups) mainViewModel.onAction(MainAction.RefreshGroups)
             if (restartService) LauncherManager.restartService(this)
+        }
+
+    private val exportLinksLauncher =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri ->
+            if (uri == null) return@registerForActivityResult
+            saveLinksTo(uri)
+        }
+
+    private val exportConfigLauncher =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+            val guid = pendingConfigExportGuid
+            pendingConfigExportGuid = null
+            if (uri == null || guid == null) return@registerForActivityResult
+            saveConfigTo(uri, guid)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,10 +122,18 @@ class MainActivity : HelperBaseComponentActivity() {
                     is MainAction.EditServer -> editServer(action.guid, action.profile)
                     is MainAction.ShareClipboard -> shareToClipboard(action.guid)
                     is MainAction.ShareFullContent -> shareFullContentAsync(action.guid)
+                    MainAction.ExportLinksToFile -> exportLinksLauncher.launch(getString(R.string.home_export_links_file_name))
+                    MainAction.ExportConfigToFile -> startConfigExport()
+                    is MainAction.SaveCustomSni -> mainViewModel.saveCustomSni(action.value) {
+                        val needsRestart = SettingsChangeManager.consumeRestartService()
+                        if (needsRestart && mainViewModel.uiState.value.isRunning) {
+                            LauncherManager.restartService(this)
+                        }
+                    }
                     else -> mainViewModel.onAction(action)
                 }
             },
-            onNavigate = { route -> navigateTo(route) },
+            onOpenSettings = { settingsActivityLauncher.launch(Intent(this, SettingsActivity::class.java)) },
         )
     }
 
@@ -136,26 +150,37 @@ class MainActivity : HelperBaseComponentActivity() {
         }
     }
 
-    private fun navigateTo(destination: MainDestination) {
-        val intent = when (destination) {
-            MainDestination.Subscriptions -> Intent(this, SubSettingActivity::class.java)
-            MainDestination.PerAppProxy -> Intent(this, PerAppProxyActivity::class.java)
-            MainDestination.Routing -> Intent(this, RoutingSettingActivity::class.java)
-            MainDestination.UserAssets -> Intent(this, UserAssetActivity::class.java)
-            MainDestination.Settings -> Intent(this, SettingsActivity::class.java)
-            MainDestination.Logcat -> Intent(this, LogcatActivity::class.java)
-            MainDestination.CheckUpdate -> Intent(this, CheckUpdateActivity::class.java)
-            MainDestination.BackupRestore -> Intent(this, BackupActivity::class.java)
-            MainDestination.About -> Intent(this, AboutActivity::class.java)
-            MainDestination.Promotion -> {
-                Utils.openUri(
-                    this,
-                    "${Utils.decode(AppConfig.APP_PROMOTION_URL)}?t=${System.currentTimeMillis()}"
-                )
-                return
+    /** Writes one share link per visible server to the picked document. */
+    private fun saveLinksTo(uri: android.net.Uri) {
+        val guids = mainViewModel.visibleServerGuids()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val links = AngConfigManager.buildShareLinks(guids)
+            val saved = links.isNotEmpty() && AngConfigManager.writeTextToUri(this@MainActivity, uri, links)
+            withContext(Dispatchers.Main) {
+                if (saved) toastSuccess(R.string.toast_success) else toastError(R.string.toast_failure)
             }
         }
-        settingsActivityLauncher.launch(intent)
+    }
+
+    private fun startConfigExport() {
+        val guid = mainViewModel.uiState.value.selectedGuid
+        if (guid.isNullOrEmpty()) {
+            toastError(R.string.home_select_server_first)
+            return
+        }
+        pendingConfigExportGuid = guid
+        exportConfigLauncher.launch(getString(R.string.home_export_config_file_name))
+    }
+
+    /** Builds the full runtime config for [guid] and writes it to the picked document. */
+    private fun saveConfigTo(uri: android.net.Uri, guid: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val json = AngConfigManager.buildFullConfigJson(this@MainActivity, guid)
+            val saved = json != null && AngConfigManager.writeTextToUri(this@MainActivity, uri, json)
+            withContext(Dispatchers.Main) {
+                if (saved) toastSuccess(R.string.toast_success) else toastError(R.string.toast_failure)
+            }
+        }
     }
 
     private fun handleFabAction() {
@@ -183,7 +208,7 @@ class MainActivity : HelperBaseComponentActivity() {
 
     private fun startV2Ray() {
         if (mainViewModel.uiState.value.selectedGuid.isNullOrEmpty()) {
-            toast(R.string.title_file_chooser)
+            toast(R.string.home_select_server_first)
             return
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CINNAMON_BUN

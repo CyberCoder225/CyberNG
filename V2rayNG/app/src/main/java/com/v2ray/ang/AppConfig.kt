@@ -21,6 +21,7 @@ object AppConfig {
 
     /** Preferences mapped to MMKV storage. */
     const val PREF_SNIFFING_ENABLED = "pref_sniffing_enabled"
+    const val PREF_CUSTOM_SNI = "pref_custom_sni"
     const val PREF_ROUTE_ONLY_ENABLED = "pref_route_only_enabled"
     const val PREF_PER_APP_PROXY = "pref_per_app_proxy"
     const val PREF_PER_APP_PROXY_SET = "pref_per_app_proxy_set"
@@ -100,13 +101,6 @@ object AppConfig {
     const val BROADCAST_ACTION_SERVICE = "$ANG_PACKAGE.action.service"
     const val BROADCAST_ACTION_ACTIVITY = "$ANG_PACKAGE.action.activity"
     const val BROADCAST_ACTION_WIDGET_CLICK = "$ANG_PACKAGE.action.widget.click"
-
-    /** Tasker extras. */
-    const val TASKER_EXTRA_BUNDLE = "com.twofortyfouram.locale.intent.extra.BUNDLE"
-    const val TASKER_EXTRA_STRING_BLURB = "com.twofortyfouram.locale.intent.extra.BLURB"
-    const val TASKER_EXTRA_BUNDLE_SWITCH = "tasker_extra_bundle_switch"
-    const val TASKER_EXTRA_BUNDLE_GUID = "tasker_extra_bundle_guid"
-    const val TASKER_DEFAULT_GUID = "Default"
 
     /** Tags for different proxy modes. */
     const val TAG_PROXY = "proxy"

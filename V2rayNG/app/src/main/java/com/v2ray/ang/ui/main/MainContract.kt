@@ -26,7 +26,8 @@ data class MainUiState(
     val locateTarget: LocateTarget? = null,
     val confirmRemove: Boolean = false,
     val doubleColumnDisplay: Boolean = false,
-    val shareQRCodeBitmap: android.graphics.Bitmap? = null
+    val shareQRCodeBitmap: android.graphics.Bitmap? = null,
+    val customSni: String = ""
 )
 
 /**
@@ -46,6 +47,8 @@ sealed interface MainAction {
     data object SortByTestResults : MainAction
     data object UpdateSubscriptions : MainAction
     data object ExportAll : MainAction
+    data object ExportLinksToFile : MainAction
+    data object ExportConfigToFile : MainAction
 
     data object ImportQRcode : MainAction
     data object ImportClipboard : MainAction
@@ -65,6 +68,7 @@ sealed interface MainAction {
     data object DismissQRCodeDialog : MainAction
 
     data class ImportBatchConfig(val configText: String) : MainAction
+    data class SaveCustomSni(val value: String) : MainAction
 
     data object LocateHandled : MainAction
 }

@@ -22,6 +22,11 @@ interface MainDataSource : Closeable {
     fun getDoubleColumnDisplay(): Boolean
     fun isGroupAllDisplayEnabled(): Boolean
 
+    fun getCustomSni(): String
+
+    /** @return false when [raw] is not a valid host name; nothing is saved in that case. */
+    fun saveCustomSni(raw: String): Boolean
+
     fun getString(resId: Int): String
     fun getString(resId: Int, vararg formatArgs: Any): String
 

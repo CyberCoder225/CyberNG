@@ -81,7 +81,8 @@ class MainViewModel(
             selectedGroupId = dataSource.getSelectedSubscriptionId(),
             selectedGuid = dataSource.getSelectServer(),
             confirmRemove = dataSource.getConfirmRemove(),
-            doubleColumnDisplay = dataSource.getDoubleColumnDisplay()
+            doubleColumnDisplay = dataSource.getDoubleColumnDisplay(),
+            customSni = dataSource.getCustomSni()
         )
     )
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
@@ -291,6 +292,11 @@ class MainViewModel(
             is MainAction.Search -> filterConfig(action.query)
             is MainAction.ImportBatchConfig -> importBatchConfig(action.configText)
             MainAction.LocateHandled -> consumeLocateTarget()
+            MainAction.ExportLinksToFile,
+            MainAction.ExportConfigToFile,
+            is MainAction.SaveCustomSni -> {
+                // Handled by Activity: file pickers and the service restart after saving
+            }
             is MainAction.ShareQRCode -> {
                 val bitmap = dataSource.share2QRCode(action.guid)
                 _uiState.update { it.copy(shareQRCodeBitmap = bitmap) }
@@ -312,6 +318,29 @@ class MainViewModel(
             is MainAction.ShareClipboard,
             is MainAction.ShareFullContent -> {
                 // Handled by Activity via its onAction lambda
+            }
+        }
+    }
+
+    /** GUIDs of the servers currently shown, in display order. */
+    fun visibleServerGuids(): List<String> = currentServers().map { it.guid }
+
+    /**
+     * Saves the global custom SNI off the main thread.
+     * [onSaved] runs on the main thread only after a successful save, so the caller can restart the core.
+     */
+    fun saveCustomSni(raw: String, onSaved: () -> Unit) {
+        viewModelScope.launch(ioDispatcher) {
+            val saved = dataSource.saveCustomSni(raw)
+            val value = dataSource.getCustomSni()
+            withContext(Dispatchers.Main) {
+                if (saved) {
+                    _uiState.update { it.copy(customSni = value) }
+                    toastSuccess(R.string.toast_custom_sni_saved)
+                    onSaved()
+                } else {
+                    toastError(R.string.toast_invalid_custom_sni)
+                }
             }
         }
     }

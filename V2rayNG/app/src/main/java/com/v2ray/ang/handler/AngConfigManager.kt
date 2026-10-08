@@ -2,6 +2,7 @@ package com.v2ray.ang.handler
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
 import android.text.TextUtils
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.core.CoreConfigManager
@@ -143,6 +144,52 @@ object AngConfigManager {
             return -1
         }
         return 0
+    }
+
+    /**
+     * Builds one share link per server, one per line. Servers without a link form
+     * (custom or complex configurations) are skipped.
+     *
+     * @param guids The GUIDs of the servers to export.
+     * @return The newline-separated share links.
+     */
+    fun buildShareLinks(guids: List<String>): String {
+        val sb = StringBuilder()
+        for (guid in guids) {
+            val link = shareConfig(guid)
+            if (link.isNotEmpty()) sb.appendLine(link)
+        }
+        return sb.toString()
+    }
+
+    /**
+     * Builds the full runtime configuration JSON for one server.
+     *
+     * @param context The context.
+     * @param guid The GUID of the server.
+     * @return The configuration JSON, or null when it cannot be built.
+     */
+    fun buildFullConfigJson(context: Context, guid: String): String? {
+        val result = CoreConfigManager.getV2rayConfig(context, guid)
+        return if (result.status) result.content else null
+    }
+
+    /**
+     * Writes text to a document the user picked with the Storage Access Framework.
+     * Must be called on Dispatchers.IO.
+     *
+     * @param context The context.
+     * @param uri The document URI returned by the create-document picker.
+     * @param text The text to write.
+     * @return True if the whole text was written.
+     */
+    fun writeTextToUri(context: Context, uri: Uri, text: String): Boolean {
+        return try {
+            context.contentResolver.openOutputStream(uri, "wt")?.bufferedWriter()?.use { it.write(text) } != null
+        } catch (e: Exception) {
+            LogUtil.e(AppConfig.TAG, "Failed to write exported config", e)
+            false
+        }
     }
 
     /**

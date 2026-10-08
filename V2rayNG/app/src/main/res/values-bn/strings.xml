@@ -561,4 +561,32 @@
     <string name="connection_test_empty_message">কোনো বিবরণ পাওয়া যায়নি</string>
     <string name="value_unknown">অজানা</string>
 
+
+    <!-- Simplified home and settings screens -->
+    <string name="home_connect">সংযোগ করুন</string>
+    <string name="home_disconnect">সংযোগ বিচ্ছিন্ন করুন</string>
+    <string name="home_no_server_selected">কোনো সার্ভার নির্বাচন করা হয়নি</string>
+    <string name="home_select_server_first">একটি সার্ভার আমদানি করুন, তারপর সংযোগ করতে তালিকা থেকে সেটিতে ট্যাপ করুন।</string>
+    <string name="home_sni_title">কাস্টম SNI</string>
+    <string name="home_sni_description">সব সার্ভারে TLS ও Reality-এর জন্য ব্যবহৃত সার্ভারের নাম (SNI)। প্রতিটি সার্ভারের নিজস্ব সেটিং ব্যবহার করতে ফাঁকা রাখুন।</string>
+    <string name="home_sni_label">SNI হোস্টের নাম, যেমন example.com</string>
+    <string name="home_sni_current">বর্তমান SNI: %s</string>
+    <string name="home_sni_none">সেট করা নেই। প্রতিটি সার্ভার নিজের সেটিং ব্যবহার করে।</string>
+    <string name="action_save">সংরক্ষণ</string>
+    <string name="action_clear">মুছুন</string>
+    <string name="home_servers_count">সার্ভার (%d)</string>
+    <string name="home_test_all">সবগুলো পরীক্ষা করুন</string>
+    <string name="home_no_servers">এখনো কোনো সার্ভার নেই। ক্লিপবোর্ড, QR কোড বা ফাইল থেকে যোগ করতে আমদানি-তে ট্যাপ করুন।</string>
+    <string name="home_delay_ms">%d মিলিসেকেন্ড</string>
+    <string name="home_delay_not_tested">পরীক্ষা করা হয়নি</string>
+    <string name="home_server_more">%s-এর আরও ক্রিয়া</string>
+    <string name="home_import">আমদানি</string>
+    <string name="home_export">রপ্তানি</string>
+    <string name="home_export_links_file">সব লিংক ফাইলে সংরক্ষণ করুন</string>
+    <string name="home_export_config_file">নির্বাচিত সার্ভার কনফিগ ফাইল হিসেবে সংরক্ষণ করুন</string>
+    <string name="toast_custom_sni_saved">কাস্টম SNI সংরক্ষিত হয়েছে</string>
+    <string name="toast_invalid_custom_sni">একটি বৈধ হোস্টের নাম লিখুন, যেমন example.com</string>
+    <string name="home_mode_help">VPN মোড সব অ্যাপকে প্রক্সির মধ্য দিয়ে পাঠায়। শুধু প্রক্সি মোড একটি স্থানীয় প্রক্সি চালায়, যা অ্যাপগুলোকে নিজে থেকে ব্যবহার করতে হয়।</string>
+    <string name="home_version">সংস্করণ %s</string>
+
 </resources>

@@ -559,4 +559,32 @@
     <string name="connection_test_empty_message">沒有詳細資訊</string>
     <string name="value_unknown">未知</string>
 
+
+    <!-- Simplified home and settings screens -->
+    <string name="home_connect">連線</string>
+    <string name="home_disconnect">中斷連線</string>
+    <string name="home_no_server_selected">未選擇伺服器</string>
+    <string name="home_select_server_first">匯入伺服器後，在清單中點選它即可連線。</string>
+    <string name="home_sni_title">自訂 SNI</string>
+    <string name="home_sni_description">所有伺服器的 TLS 與 Reality 所使用的伺服器名稱（SNI）。留空則使用各伺服器自身的設定。</string>
+    <string name="home_sni_label">SNI 網域名稱（例如 example.com）</string>
+    <string name="home_sni_current">目前 SNI：%s</string>
+    <string name="home_sni_none">未設定，每個伺服器使用自身設定。</string>
+    <string name="action_save">儲存</string>
+    <string name="action_clear">清除</string>
+    <string name="home_servers_count">伺服器（%d）</string>
+    <string name="home_test_all">全部測試</string>
+    <string name="home_no_servers">尚無伺服器。點選「匯入」，從剪貼簿、QR Code 或檔案新增。</string>
+    <string name="home_delay_ms">%d 毫秒</string>
+    <string name="home_delay_not_tested">未測試</string>
+    <string name="home_server_more">%s 的更多操作</string>
+    <string name="home_import">匯入</string>
+    <string name="home_export">匯出</string>
+    <string name="home_export_links_file">將所有連結儲存為檔案</string>
+    <string name="home_export_config_file">將所選伺服器儲存為設定檔</string>
+    <string name="toast_custom_sni_saved">自訂 SNI 已儲存</string>
+    <string name="toast_invalid_custom_sni">請輸入有效的網域名稱，例如 example.com</string>
+    <string name="home_mode_help">VPN 會讓所有應用程式透過代理。僅代理模式會執行本機代理，應用程式需手動設定使用它。</string>
+    <string name="home_version">版本 %s</string>
+
 </resources>

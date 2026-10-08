@@ -561,4 +561,34 @@
     <string name="connection_test_empty_message">no details available</string>
     <string name="value_unknown">unknown</string>
 
+
+    <!-- Simplified home and settings screens -->
+    <string name="home_connect">Connect</string>
+    <string name="home_disconnect">Disconnect</string>
+    <string name="home_no_server_selected">No server selected</string>
+    <string name="home_select_server_first">Import a server and tap it in the list to connect.</string>
+    <string name="home_sni_title">Custom SNI</string>
+    <string name="home_sni_description">The server name (SNI) used for TLS and Reality on all servers. Leave it empty to use each server\'s own setting.</string>
+    <string name="home_sni_label">SNI host name (e.g. example.com)</string>
+    <string name="home_sni_current">Current SNI: %s</string>
+    <string name="home_sni_none">Not set. Each server uses its own setting.</string>
+    <string name="action_save">Save</string>
+    <string name="action_clear">Clear</string>
+    <string name="home_servers_count">Servers (%d)</string>
+    <string name="home_test_all">Test all</string>
+    <string name="home_no_servers">No servers yet. Tap Import to add one from the clipboard, a QR code or a file.</string>
+    <string name="home_delay_ms">%d ms</string>
+    <string name="home_delay_not_tested">Not tested</string>
+    <string name="home_server_more">More actions for %s</string>
+    <string name="home_import">Import</string>
+    <string name="home_export">Export</string>
+    <string name="home_export_links_file">Save all links to a file</string>
+    <string name="home_export_config_file">Save selected server as a config file</string>
+    <string name="toast_custom_sni_saved">Custom SNI saved</string>
+    <string name="toast_invalid_custom_sni">Enter a valid host name, for example example.com</string>
+    <string name="home_mode_help">VPN sends all apps through the proxy. Proxy only runs a local proxy that apps must be set to use.</string>
+    <string name="home_version">Version %s</string>
+    <string name="home_export_links_file_name" translatable="false">cyberng-links.txt</string>
+    <string name="home_export_config_file_name" translatable="false">cyberng-config.json</string>
+
 </resources>

@@ -569,4 +569,32 @@
     <string name="connection_test_empty_message">لا تتوفر تفاصيل</string>
     <string name="value_unknown">غير معروف</string>
 
+
+    <!-- Simplified home and settings screens -->
+    <string name="home_connect">اتصال</string>
+    <string name="home_disconnect">قطع الاتصال</string>
+    <string name="home_no_server_selected">لم يتم اختيار خادم</string>
+    <string name="home_select_server_first">استورد خادمًا ثم اضغط عليه في القائمة للاتصال.</string>
+    <string name="home_sni_title">SNI مخصص</string>
+    <string name="home_sni_description">اسم الخادم (SNI) المستخدم مع TLS وReality على جميع الخوادم. اتركه فارغًا لاستخدام إعداد كل خادم.</string>
+    <string name="home_sni_label">اسم مضيف SNI، مثل example.com</string>
+    <string name="home_sni_current">SNI الحالي: %s</string>
+    <string name="home_sni_none">غير مضبوط. يستخدم كل خادم إعداده الخاص.</string>
+    <string name="action_save">حفظ</string>
+    <string name="action_clear">مسح</string>
+    <string name="home_servers_count">الخوادم (%d)</string>
+    <string name="home_test_all">اختبار الكل</string>
+    <string name="home_no_servers">لا توجد خوادم بعد. اضغط استيراد لإضافة خادم من الحافظة أو رمز QR أو ملف.</string>
+    <string name="home_delay_ms">%d مللي ثانية</string>
+    <string name="home_delay_not_tested">لم يُختبر</string>
+    <string name="home_server_more">إجراءات إضافية لـ %s</string>
+    <string name="home_import">استيراد</string>
+    <string name="home_export">تصدير</string>
+    <string name="home_export_links_file">حفظ كل الروابط في ملف</string>
+    <string name="home_export_config_file">حفظ الخادم المحدد كملف إعدادات</string>
+    <string name="toast_custom_sni_saved">تم حفظ SNI المخصص</string>
+    <string name="toast_invalid_custom_sni">أدخل اسم مضيف صالحًا، مثل example.com</string>
+    <string name="home_mode_help">يوجه وضع VPN كل التطبيقات عبر الوكيل. وضع الوكيل فقط يشغّل وكيلًا محليًا يجب أن تستخدمه التطبيقات يدويًا.</string>
+    <string name="home_version">الإصدار %s</string>
+
 </resources>
